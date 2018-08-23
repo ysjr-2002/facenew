@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnGateOpen"
+            android:text="开"
+            style="@style/btnstyle"/>
+
+        <Button
+            android:id="@+id/btnGateClose"
+            android:text="关"
+            style="@style/btnstyle"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+       <RadioGroup
+           android:id="@+id/rg_ligth_group"
+           android:orientation="horizontal"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+           <RadioButton
+               android:id="@+id/rb_white"
+               android:text="白"
+               android:checked="true"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           <RadioButton
+               android:id="@+id/rb_red"
+               android:text="红"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           <RadioButton
+               android:id="@+id/rb_green"
+               android:text="绿"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           <RadioButton
+               android:id="@+id/rb_blue"
+               android:text="蓝"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           <RadioButton
+               android:id="@+id/rb_yellow"
+               android:text="黄"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           <RadioButton
+               android:id="@+id/rb_close"
+               android:text="关"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+       </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="100dp"
+            android:entries="@array/ligth"
+            android:prompt="@array/ligth"
+            android:spinnerMode="dropdown"
+            android:layout_height="wrap_content"></Spinner>
+
+        <Button
+            android:id="@+id/btn_ligth"
+            android:text="灯"
+            android:layout_width="120dp"
+            style="@style/btnstyle"/>
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:id="@+id/rg_fan"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/rb_fan_open"
+                android:text="开"
+                android:checked="true"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/rb_fan_close"
+                android:text="关"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_fan"
+            android:text="风扇"
+            android:layout_width="120dp"
+            style="@style/btnstyle"/>
+
+    </LinearLayout>
+
+</LinearLayout>

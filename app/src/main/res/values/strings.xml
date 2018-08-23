@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Face</string>
+
+    <string-array name="ligth">
+        <item>白</item>
+        <item>红</item>
+        <item>绿</item>
+        <item>蓝</item>
+        <item>黄</item>
+        <item>关</item>
+    </string-array>
+</resources>
