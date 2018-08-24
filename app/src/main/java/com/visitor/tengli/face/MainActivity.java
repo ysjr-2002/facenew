@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import com.hwit.HwitManager;
 import com.visitor.tengli.face.util.Config;
 import com.visitor.tengli.face.util.DateUtil;
+import com.visitor.tengli.face.util.Light;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -133,22 +134,22 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.rb_white) {
-                    openlight(0);
+                    Light.openlight(0);
                 }
                 if (checkedId == R.id.rb_red) {
-                    openlight(1);
+                    Light.openlight(1);
                 }
                 if (checkedId == R.id.rb_green) {
-                    openlight(2);
+                    Light.openlight(2);
                 }
                 if (checkedId == R.id.rb_blue) {
-                    openlight(3);
+                    Light.openlight(3);
                 }
                 if (checkedId == R.id.rb_yellow) {
-                    openlight(4);
+                    Light.openlight(4);
                 }
                 if (checkedId == R.id.rb_close) {
-                    openlight(5);
+                    Light.openlight(5);
                 }
             }
         });
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_ligth:
                 int pos = spinner.getSelectedItemPosition();
-                openlight(pos);
+                Light.openlight(pos);
                 break;
             case R.id.btn_fan:
                 if (rbFanOpen.isChecked()) {
@@ -183,41 +184,6 @@ public class MainActivity extends AppCompatActivity {
 
                 closeLigthHandler.sendEmptyMessageDelayed(0, 5000);
                 break;
-        }
-    }
-
-    private void openlight(int pos) {
-
-        if (pos == 0) {
-            //白
-            HwitManager.HwitSetIOValue(8, 1);
-            HwitManager.HwitSetIOValue(9, 1);
-            HwitManager.HwitSetIOValue(10, 1);
-        } else if (pos == 1) {
-            //红
-            HwitManager.HwitSetIOValue(8, 1);
-            HwitManager.HwitSetIOValue(9, 0);
-            HwitManager.HwitSetIOValue(10, 0);
-        } else if (pos == 2) {
-            //绿
-            HwitManager.HwitSetIOValue(8, 0);
-            HwitManager.HwitSetIOValue(9, 1);
-            HwitManager.HwitSetIOValue(10, 0);
-        } else if (pos == 3) {
-            //蓝
-            HwitManager.HwitSetIOValue(8, 0);
-            HwitManager.HwitSetIOValue(9, 0);
-            HwitManager.HwitSetIOValue(10, 1);
-        } else if (pos == 4) {
-            //黄
-            HwitManager.HwitSetIOValue(8, 1);
-            HwitManager.HwitSetIOValue(9, 1);
-            HwitManager.HwitSetIOValue(10, 0);
-        } else if (pos == 5) {
-            //关
-            HwitManager.HwitSetIOValue(8, 0);
-            HwitManager.HwitSetIOValue(9, 0);
-            HwitManager.HwitSetIOValue(10, 0);
         }
     }
 }
