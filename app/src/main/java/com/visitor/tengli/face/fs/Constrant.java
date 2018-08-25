@@ -9,9 +9,8 @@ import com.visitor.tengli.face.util.Util;
 
 public class Constrant {
 
-//    public static String RTSP_CAMERA = "rtsp://%s:8080/h264_ulaw.sdp";
-
-    public  static  String RTSP_CAMERA = "http://%s:8080/video";
+    public static String RTSP_CAMERA = "rtsp://%s:8080/h264_ulaw.sdp";
+//    public  static  String RTSP_CAMERA = "http://%s:8080/video";
     public static String key_welcome = "welcome";
     public static String key_main_server = "server";
     public static String key_slave_server = "slaveserver";

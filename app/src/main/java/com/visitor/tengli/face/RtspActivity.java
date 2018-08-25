@@ -49,19 +49,34 @@ public class RtspActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rtsp);
         ButterKnife.bind(this);
 
-//        initTimerTask();
+        initTimerTask();
         initView();
-
-        //handler.sendEmptyMessageDelayed(103, 5000);
     }
 
-    private void showface() {
+    private void showface(String avatar) {
 
-        String avatar = "http://pic-bucket.nosdn.127.net/photo/0003/2018-08-25/DQ1OVQN700AJ0003NOS.jpg";
+//        String avatar = "http://pic-bucket.nosdn.127.net/photo/0003/2018-08-25/DQ1OVQN700AJ0003NOS.jpg";
         Picasso.with(this).load(avatar).into(imageFace);
-
         rlFaceRoot.setVisibility(View.VISIBLE);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.big);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+                handler.removeMessages(200);
+                handler.sendEmptyMessageDelayed(200, 3000);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         rlFaceRoot.startAnimation(animation);
     }
 
@@ -75,7 +90,7 @@ public class RtspActivity extends AppCompatActivity {
             public void run() {
 
                 Log.d("ysj", DateUtil.getCurrentDateTime());
-                int result = HwitManager.HwitGetIrqIOValue(1);
+                int result = Light.getFace();
                 if (result == 1) {
                     Light.openlight(LightColorEnum.White);
                 } else {
@@ -113,9 +128,9 @@ public class RtspActivity extends AppCompatActivity {
 
         });
 
-//        webview.loadUrl("http://127.0.0.1:8080/browserfs.html");
-        webview.loadUrl("http://www.baidu.com");
-        webSocketHelper = new WebSocketHelper(this, "192.168.0.50", "192.168.0.15", handler);
+        webview.loadUrl("http://127.0.0.1:8080/browserfs.html");
+//        webview.loadUrl("http://www.baidu.com");
+        webSocketHelper = new WebSocketHelper(this, "192.168.0.50", "192.168.0.13", handler);
         webSocketHelper.open();
     }
 
@@ -126,9 +141,12 @@ public class RtspActivity extends AppCompatActivity {
             if (message.what == 100) {
 
                 String personname = message.getData().getString("name");
+                String avatar = message.getData().getString("avatar");
                 name.setText("识别名称->" + personname);
                 handler.sendEmptyMessageDelayed(101, 5000);
                 Light.openlight(LightColorEnum.Green);
+
+                showface(avatar);
             }
             if (message.what == 101) {
 
@@ -140,8 +158,12 @@ public class RtspActivity extends AppCompatActivity {
             }
             if (message.what == 103) {
                 name.setText("error");
+//                showface();
+            }
+            if (message.what == 200) {
 
-                showface();
+                rlFaceRoot.setVisibility(View.INVISIBLE);
+                rlFaceRoot.startAnimation(AnimationUtils.makeOutAnimation(RtspActivity.this,false));
             }
             return false;
         }

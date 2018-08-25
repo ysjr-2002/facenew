@@ -14,12 +14,12 @@
         <WebView
             android:id="@+id/webview"
             android:layout_gravity="center"
-            android:layout_width="300dp"
-            android:layout_height="300dp"></WebView>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></WebView>
 
         <RelativeLayout
             android:background="#293d58"
-            android:layout_margin="20dp"
+            android:layout_margin="40dp"
             android:id="@+id/rl_face_root"
             android:visibility="gone"
             android:layout_width="match_parent"
@@ -65,8 +65,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="46dp" />
-
-
 
         </RelativeLayout>
     </FrameLayout>
