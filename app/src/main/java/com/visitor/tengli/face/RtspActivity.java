@@ -4,24 +4,31 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Visibility;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hwit.HwitManager;
+import com.squareup.picasso.Picasso;
 import com.visitor.tengli.face.fs.WebSocketHelper;
-import com.visitor.tengli.face.util.Config;
 import com.visitor.tengli.face.util.DateUtil;
 import com.visitor.tengli.face.util.Light;
+import com.visitor.tengli.face.util.LightColorEnum;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RtspActivity extends AppCompatActivity {
 
@@ -29,6 +36,12 @@ public class RtspActivity extends AppCompatActivity {
     WebView webview;
     @BindView(R.id.name)
     TextView name;
+    @BindView(R.id.image_face)
+    CircleImageView imageFace;
+    @BindView(R.id.tvopen)
+    TextView tvopen;
+    @BindView(R.id.rl_face_root)
+    RelativeLayout rlFaceRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +49,20 @@ public class RtspActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rtsp);
         ButterKnife.bind(this);
 
-//        Light.openlight(5);
 //        initTimerTask();
         initView();
+
+        //handler.sendEmptyMessageDelayed(103, 5000);
+    }
+
+    private void showface() {
+
+        String avatar = "http://pic-bucket.nosdn.127.net/photo/0003/2018-08-25/DQ1OVQN700AJ0003NOS.jpg";
+        Picasso.with(this).load(avatar).into(imageFace);
+
+        rlFaceRoot.setVisibility(View.VISIBLE);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.big);
+        rlFaceRoot.startAnimation(animation);
     }
 
     Timer timer;
@@ -53,17 +77,13 @@ public class RtspActivity extends AppCompatActivity {
                 Log.d("ysj", DateUtil.getCurrentDateTime());
                 int result = HwitManager.HwitGetIrqIOValue(1);
                 if (result == 1) {
-                    Light.openlight(0);
-                }
-                else
-                {
-                    Light.openlight(5);
+                    Light.openlight(LightColorEnum.White);
+                } else {
+                    Light.openlight(LightColorEnum.Close);
                 }
             }
         };
-
         timer = new Timer();
-        Log.d(Config.tag, DateUtil.getCurrentDateTime());
         timer.schedule(timerTask, 1000, 1000);
     }
 
@@ -93,12 +113,10 @@ public class RtspActivity extends AppCompatActivity {
 
         });
 
-        webview.loadUrl("http://192.168.0.15:8080/browserfs.html");
-
+//        webview.loadUrl("http://127.0.0.1:8080/browserfs.html");
+        webview.loadUrl("http://www.baidu.com");
         webSocketHelper = new WebSocketHelper(this, "192.168.0.50", "192.168.0.15", handler);
         webSocketHelper.open();
-
-//        Light.openlight(5);
     }
 
     private Handler handler = new Handler(new Handler.Callback() {
@@ -107,35 +125,23 @@ public class RtspActivity extends AppCompatActivity {
 
             if (message.what == 100) {
 
-//                if (ActivityCollector.isActivityExist(FaceActivity.class)) {
-//                    Log.d("ysj", "showing");
-//
-//                    FaceActivity test = (FaceActivity) ActivityCollector.getActivity(FaceActivity.class);
-//                    if (test != null) {
-//                        test.Update();
-//                    }
-//                    return true;
-//                }
-//
-//                Intent intent = new Intent(getBaseContext(), FaceActivity.class);
-//                intent.putExtra("face", message.getData());
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
                 String personname = message.getData().getString("name");
                 name.setText("识别名称->" + personname);
                 handler.sendEmptyMessageDelayed(101, 5000);
-//                Light.openlight(2);
+                Light.openlight(LightColorEnum.Green);
             }
             if (message.what == 101) {
 
                 name.setText("open");
-//                Light.openlight(0);
+                Light.openlight(LightColorEnum.White);
             }
             if (message.what == 102) {
                 name.setText("close");
             }
             if (message.what == 103) {
                 name.setText("error");
+
+                showface();
             }
             return false;
         }

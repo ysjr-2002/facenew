@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Face</string>
+    <string name="app_name">Face Recognize</string>
 
     <string-array name="ligth">
         <item>白</item>

@@ -9,12 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.hwit.HwitManager;
 import com.visitor.tengli.face.util.Config;
 import com.visitor.tengli.face.util.DateUtil;
 import com.visitor.tengli.face.util.Light;
+import com.visitor.tengli.face.util.LightColorEnum;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.btnGateOpen)
     Button btnGateOpen;
-    @BindView(R.id.spinner)
-    Spinner spinner;
     @BindView(R.id.rb_fan_open)
     RadioButton rbFanOpen;
     @BindView(R.id.rb_fan_close)
@@ -41,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnFan;
     @BindView(R.id.rg_fan)
     RadioGroup rgFan;
-    @BindView(R.id.btn_ligth)
-    Button btnLigth;
     @BindView(R.id.rb_white)
     RadioButton rbWhite;
     @BindView(R.id.rb_red)
@@ -68,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     RadioGroup rgGate;
     @BindView(R.id.btn_msg)
     Button btnMsg;
+    @BindView(R.id.tv_face_state)
+    TextView tvFaceState;
 
 
     @Override
@@ -134,28 +133,28 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.rb_white) {
-                    Light.openlight(0);
+                    Light.openlight(LightColorEnum.White);
                 }
                 if (checkedId == R.id.rb_red) {
-                    Light.openlight(1);
+                    Light.openlight(LightColorEnum.Red);
                 }
                 if (checkedId == R.id.rb_green) {
-                    Light.openlight(2);
+                    Light.openlight(LightColorEnum.Green);
                 }
                 if (checkedId == R.id.rb_blue) {
-                    Light.openlight(3);
+                    Light.openlight(LightColorEnum.Blue);
                 }
                 if (checkedId == R.id.rb_yellow) {
-                    Light.openlight(4);
+                    Light.openlight(LightColorEnum.Yellow);
                 }
                 if (checkedId == R.id.rb_close) {
-                    Light.openlight(5);
+                    Light.openlight(LightColorEnum.Close);
                 }
             }
         });
     }
 
-    @OnClick({R.id.btnGateOpen, R.id.btn_ligth, R.id.btn_fan, R.id.btn_msg})
+    @OnClick({R.id.btnGateOpen, R.id.btn_fan, R.id.btn_msg})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnGateOpen:
@@ -165,10 +164,6 @@ public class MainActivity extends AppCompatActivity {
                 if (rbGateClose.isChecked()) {
                     HwitManager.HwitSetIOValue(5, 0);
                 }
-                break;
-            case R.id.btn_ligth:
-                int pos = spinner.getSelectedItemPosition();
-                Light.openlight(pos);
                 break;
             case R.id.btn_fan:
                 if (rbFanOpen.isChecked()) {
@@ -180,9 +175,18 @@ public class MainActivity extends AppCompatActivity {
                     HwitManager.HwitSetIOValue(4, 0);
                 }
                 break;
-            case  R.id.btn_msg:
-
-                closeLigthHandler.sendEmptyMessageDelayed(0, 5000);
+            case R.id.btn_msg:
+                try {
+//                    int result = HwitManager.HwitGetIrqIOValue(1);
+//                    if (result == 1) {
+//                        tvFaceState.setText("有人");
+//                    } else
+//                        tvFaceState.setText("无人");
+                    int x = 10/ 0;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    tvFaceState.setText("状态读取异常");
+                }
                 break;
         }
     }

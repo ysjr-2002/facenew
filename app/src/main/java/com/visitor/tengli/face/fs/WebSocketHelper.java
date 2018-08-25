@@ -43,8 +43,8 @@ public class WebSocketHelper {
     private void init() {
         String url = Constrant.getUrl(koala, camera);
         try {
-            java.net.URI uri = java.net.URI.create(url);
-//            java.net.URI uri = java.net.URI.create("ws://192.168.0.7:4649/Echo");
+//            java.net.URI uri = java.net.URI.create(url);
+            java.net.URI uri = java.net.URI.create("ws://192.168.3.54:4649/Echo");
             client = new WebSocketClient(uri) {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {

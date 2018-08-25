@@ -7,15 +7,77 @@
     android:orientation="vertical"
     tools:context=".RtspActivity">
 
-    <WebView
-        android:id="@+id/webview"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"></WebView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <WebView
+            android:id="@+id/webview"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="300dp"></WebView>
+
+        <RelativeLayout
+            android:background="#293d58"
+            android:layout_margin="20dp"
+            android:id="@+id/rl_face_root"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_alignParentTop="true"
+                android:background="#4d6ea1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="150dp"
+                    android:id="@+id/image_face"
+                    android:layout_centerInParent="true"
+                    android:layout_height="150dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:src="@mipmap/yz"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="欢迎光临"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:layout_above="@+id/tvopen"
+                android:layout_width="match_parent"
+                android:layout_height="46dp" />
+
+            <TextView
+                android:id="@+id/tvopen"
+                android:text="开闸成功"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="46dp" />
+
+
+
+        </RelativeLayout>
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/name"
         android:gravity="center"
+        android:textColor="@color/colorAccent"
+        android:text="are you ok"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="46dp" />
 
