@@ -36,8 +36,8 @@ public class RtspActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rtsp);
         ButterKnife.bind(this);
 
-        Light.openlight(5);
-        initTimerTask();
+//        Light.openlight(5);
+//        initTimerTask();
         initView();
     }
 
@@ -93,12 +93,12 @@ public class RtspActivity extends AppCompatActivity {
 
         });
 
-        webview.loadUrl("http://127.0.0.1:8080/browserfs.html");
+        webview.loadUrl("http://192.168.0.15:8080/browserfs.html");
 
         webSocketHelper = new WebSocketHelper(this, "192.168.0.50", "192.168.0.15", handler);
         webSocketHelper.open();
 
-        Light.openlight(5);
+//        Light.openlight(5);
     }
 
     private Handler handler = new Handler(new Handler.Callback() {
@@ -124,12 +124,12 @@ public class RtspActivity extends AppCompatActivity {
                 String personname = message.getData().getString("name");
                 name.setText("识别名称->" + personname);
                 handler.sendEmptyMessageDelayed(101, 5000);
-                Light.openlight(2);
+//                Light.openlight(2);
             }
             if (message.what == 101) {
 
                 name.setText("open");
-                Light.openlight(0);
+//                Light.openlight(0);
             }
             if (message.what == 102) {
                 name.setText("close");
