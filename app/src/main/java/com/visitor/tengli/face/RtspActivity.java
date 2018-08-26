@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Visibility;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,12 +12,14 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hwit.HwitManager;
 import com.squareup.picasso.Picasso;
 import com.visitor.tengli.face.fs.WebSocketHelper;
+import com.visitor.tengli.face.helpers.SharedPreferencesHelper;
 import com.visitor.tengli.face.util.DateUtil;
 import com.visitor.tengli.face.util.Light;
 import com.visitor.tengli.face.util.LightColorEnum;
@@ -34,14 +35,22 @@ public class RtspActivity extends AppCompatActivity {
 
     @BindView(R.id.webview)
     WebView webview;
-    @BindView(R.id.name)
-    TextView name;
+    @BindView(R.id.tv_state)
+    TextView tvState;
     @BindView(R.id.image_face)
     CircleImageView imageFace;
     @BindView(R.id.tvopen)
     TextView tvopen;
     @BindView(R.id.rl_face_root)
-    RelativeLayout rlFaceRoot;
+    FrameLayout rlFaceRoot;
+
+    String koala;
+    String camera;
+    SharedPreferencesHelper sp;
+    @BindView(R.id.tv_vip_name)
+    TextView tvVipName;
+    @BindView(R.id.diffuseView)
+    com.visitor.tengli.face.view.DiffuseView diffuseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +58,19 @@ public class RtspActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rtsp);
         ButterKnife.bind(this);
 
+        sp = SharedPreferencesHelper.getInstance(this);
+        koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
+        camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
         initTimerTask();
         initView();
+
+        diffuseView.start();
     }
 
     private void showface(String avatar) {
 
+        diffuseView.start();
+        diffuseView.setVisibility(View.INVISIBLE);
 //        String avatar = "http://pic-bucket.nosdn.127.net/photo/0003/2018-08-25/DQ1OVQN700AJ0003NOS.jpg";
         Picasso.with(this).load(avatar).into(imageFace);
         rlFaceRoot.setVisibility(View.VISIBLE);
@@ -62,7 +78,6 @@ public class RtspActivity extends AppCompatActivity {
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
@@ -89,7 +104,6 @@ public class RtspActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                Log.d("ysj", DateUtil.getCurrentDateTime());
                 int result = Light.getFace();
                 if (result == 1) {
                     Light.openlight(LightColorEnum.White);
@@ -128,9 +142,9 @@ public class RtspActivity extends AppCompatActivity {
 
         });
 
-        webview.loadUrl("http://127.0.0.1:8080/browserfs.html");
-//        webview.loadUrl("http://www.baidu.com");
-        webSocketHelper = new WebSocketHelper(this, "192.168.0.50", "192.168.0.13", handler);
+//        webview.loadUrl("http://127.0.0.1:8080/browserfs.html");
+        webview.loadUrl("http://www.baidu.com");
+        webSocketHelper = new WebSocketHelper(this, koala, camera, handler);
         webSocketHelper.open();
     }
 
@@ -140,30 +154,39 @@ public class RtspActivity extends AppCompatActivity {
 
             if (message.what == 100) {
 
-                String personname = message.getData().getString("name");
-                String avatar = message.getData().getString("avatar");
-                name.setText("识别名称->" + personname);
-                handler.sendEmptyMessageDelayed(101, 5000);
-                Light.openlight(LightColorEnum.Green);
+                Bundle bundle = message.getData();
+                String type = bundle.getString("type");
+                if (type == "0") {
+                    String personname = bundle.getString("name");
+                    String avatar = bundle.getString("avatar");
+                    tvVipName.setText("欢迎光临 " + personname);
+                    handler.sendEmptyMessageDelayed(101, 5000);
+                    showface(avatar);
+                    Light.openlight(LightColorEnum.Green);
+                }
 
-                showface(avatar);
+                if (type == "1") {
+                    Light.openlight(LightColorEnum.Red);
+                }
             }
             if (message.what == 101) {
 
-                name.setText("open");
+                tvState.setText("Open");
                 Light.openlight(LightColorEnum.White);
             }
             if (message.what == 102) {
-                name.setText("close");
+                tvState.setText("Close");
             }
             if (message.what == 103) {
-                name.setText("error");
-//                showface();
+                tvState.setText("Error");
             }
             if (message.what == 200) {
 
                 rlFaceRoot.setVisibility(View.INVISIBLE);
-                rlFaceRoot.startAnimation(AnimationUtils.makeOutAnimation(RtspActivity.this,false));
+                rlFaceRoot.startAnimation(AnimationUtils.makeOutAnimation(RtspActivity.this, false));
+
+                diffuseView.setVisibility(View.VISIBLE);
+                diffuseView.start();
             }
             return false;
         }

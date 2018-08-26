@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.visitor.tengli.face.InitActivity;
 import com.visitor.tengli.face.MainActivity;
 
 /**
@@ -16,7 +17,7 @@ public class BootCompeletReciver extends BroadcastReceiver {
 
         if (intent.getAction() == Intent.ACTION_BOOT_COMPLETED) {
 
-            Intent start = new Intent(context, MainActivity.class);
+            Intent start = new Intent(context, InitActivity.class);
             start.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(start);
         }

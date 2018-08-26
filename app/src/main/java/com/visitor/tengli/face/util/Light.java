@@ -6,7 +6,7 @@ public class Light {
 
     public static int getFace() {
 //        return HwitManager.HwitGetIrqIOValue(1);
-        return 1;
+        return  1;
     }
 
     public static void openlight(LightColorEnum color) {

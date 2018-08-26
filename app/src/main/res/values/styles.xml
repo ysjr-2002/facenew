@@ -3,8 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--最顶部标题-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -13,5 +14,28 @@
         <item name="android:layout_width">120dp</item>
         <item name="android:layout_height">40dp</item>
     </style>
+
+    <style name="btnSave">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:background">@drawable/btn_corner_save</item>
+        <item name="android:textSize">@dimen/settingtextsize</item>
+    </style>
+
+    <style name="btnExit">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:background">@drawable/btn_corner</item>
+        <item name="android:textSize">@dimen/settingtextsize</item>
+    </style>
+
+    <style name="tvLogin">
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/settingtextsize</item>
+    </style>
+
 
 </resources>

@@ -7,76 +7,127 @@
     android:orientation="vertical"
     tools:context=".RtspActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimaryDark"
+        android:foreground="@color/white"
+        android:gravity="center"
+        android:text="人脸识别通道"
+        android:textColor="@color/white"
+        android:textSize="32sp" />
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <WebView
             android:id="@+id/webview"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></WebView>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+        </WebView>
 
-        <RelativeLayout
-            android:background="#293d58"
-            android:layout_margin="40dp"
+        <com.visitor.tengli.face.view.DiffuseView
+            android:id="@+id/diffuseView"
+            android:layout_width="700dp"
+            android:layout_height="700dp"
+            android:layout_gravity="center"
+            app:diffuse_color="@color/color_blue_light"
+            app:diffuse_coreColor="@color/color_blue"
+            app:diffuse_coreRadius="100"
+            app:diffuse_maxWidth="300"
+            app:diffuse_speed="5"
+            app:diffuse_width="3" />
+
+        <FrameLayout
             android:id="@+id/rl_face_root"
             android:visibility="gone"
+            android:layout_marginTop="140dp"
+            android:layout_marginBottom="140dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:layout_alignParentTop="true"
-                android:background="#4d6ea1"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="match_parent"
+                android:background="#293d58"
+                android:orientation="vertical">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="150dp"
-                    android:id="@+id/image_face"
-                    android:layout_centerInParent="true"
-                    android:layout_height="150dp" />
-            </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="#4d6ea1"
+                    android:gravity="center">
 
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/image_face"
+                        android:layout_width="400dp"
+                        android:layout_height="400dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"></View>
+
+                    <TextView
+                        android:id="@+id/tv_vip_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_above="@+id/tvopen"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center"
+                        android:text="欢迎光临"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tvopen"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center"
+                        android:text="开闸成功"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"></View>
+                </LinearLayout>
+
+            </LinearLayout>
             <ImageView
-                android:src="@mipmap/yz"
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/yz" />
+        </FrameLayout>
 
-            <TextView
-                android:text="欢迎光临"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:textSize="18sp"
-                android:layout_above="@+id/tvopen"
-                android:layout_width="match_parent"
-                android:layout_height="46dp" />
-
-            <TextView
-                android:id="@+id/tvopen"
-                android:text="开闸成功"
-                android:textColor="#ffffff"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentBottom="true"
-                android:layout_width="match_parent"
-                android:layout_height="46dp" />
-
-        </RelativeLayout>
     </FrameLayout>
 
-
     <TextView
-        android:id="@+id/name"
-        android:gravity="center"
-        android:textColor="@color/colorAccent"
-        android:text="are you ok"
-        android:background="@color/colorPrimary"
+        android:id="@+id/tv_state"
         android:layout_width="match_parent"
-        android:layout_height="46dp" />
+        android:layout_height="0dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="are you ok"
+        android:textColor="@color/colorAccent" />
 
 </LinearLayout>

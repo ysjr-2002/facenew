@@ -5,4 +5,11 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorLine">#f3f3f3</color>
+    <color name="color_red">#FF0101</color>
+    <color name="color_blue">#0195FF</color>
+    <color name="color_main_background">#ffa500</color>
+    <color name="defaultcolor">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <color name="color_blue_light">#0080C4</color>
 </resources>
