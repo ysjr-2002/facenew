@@ -20,8 +20,10 @@ import android.widget.TextView;
 import com.hwit.HwitManager;
 import com.visitor.tengli.face.util.Config;
 import com.visitor.tengli.face.util.DateUtil;
+import com.visitor.tengli.face.util.IPHelper;
 import com.visitor.tengli.face.util.Light;
-import com.visitor.tengli.face.util.LightColorEnum;
+import com.visitor.tengli.face.util.LightColor;
+import com.visitor.tengli.face.util.SensorTypeName;
 
 import java.util.List;
 import java.util.Timer;
@@ -92,13 +94,23 @@ public class MainActivity extends AppCompatActivity {
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         allSensors = sm.getSensorList(Sensor.TYPE_ALL);
 
+        closeLigthHandler.sendEmptyMessageDelayed(101, 3000);
+
         init();
         initTimerTask();
+
+        getcpu();
+
+        float a = 23.4f;
+        int b = (int)a;
+        String c = "";
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        sm.unregisterListener(mSensorEventListener);
         unbinder.unbind();
     }
 
@@ -108,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                Log.d("ysj", DateUtil.getCurrentDateTime());
+//                Log.d("ysj", "当前时间->" + DateUtil.getCurrentDateTime());
 //                int result = HwitManager.HwitGetIrqIOValue(1);
 //                if (result == 1) {
 //                    //有人
@@ -138,6 +150,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d(Config.tag, "execute");
             }
+            if (msg.what == 101) {
+
+            }
             return false;
         }
     });
@@ -150,22 +165,22 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.rb_white) {
-                    Light.openlight(LightColorEnum.White);
+                    Light.openlight(LightColor.White);
                 }
                 if (checkedId == R.id.rb_red) {
-                    Light.openlight(LightColorEnum.Red);
+                    Light.openlight(LightColor.Red);
                 }
                 if (checkedId == R.id.rb_green) {
-                    Light.openlight(LightColorEnum.Green);
+                    Light.openlight(LightColor.Green);
                 }
                 if (checkedId == R.id.rb_blue) {
-                    Light.openlight(LightColorEnum.Blue);
+                    Light.openlight(LightColor.Blue);
                 }
                 if (checkedId == R.id.rb_yellow) {
-                    Light.openlight(LightColorEnum.Yellow);
+                    Light.openlight(LightColor.Yellow);
                 }
                 if (checkedId == R.id.rb_close) {
-                    Light.openlight(LightColorEnum.Close);
+                    Light.openlight(LightColor.Close);
                 }
             }
         });
@@ -193,17 +208,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.btn_msg:
-                try {
-//                    int result = HwitManager.HwitGetIrqIOValue(1);
-//                    if (result == 1) {
-//                        tvFaceState.setText("有人");
-//                    } else
-//                        tvFaceState.setText("无人");
-                    int x = 10 / 0;
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    tvFaceState.setText("状态读取异常");
-                }
+                int result = HwitManager.HwitGetIrqIOValue(1);
+                if (result == 1) {
+                    tvFaceState.setText("有人");
+                } else
+                    tvFaceState.setText("无人");
                 break;
             case R.id.btn_cpu:
                 getcpu();
@@ -213,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void getcpu() {
+
+        boolean result = IPHelper.startPing("192.168.8.54");
 
         String typeName = "";
         Sensor mTempSensor = null;
@@ -253,7 +264,6 @@ public class MainActivity extends AppCompatActivity {
                     float temperature = event.values[0];
                     Log.e("temperature: ", String.valueOf(temperature));
                     tvCpuState.setText(String.valueOf(temperature));
-//                    sm.unregisterListener(mSensorEventListener, mTempSensor);
                 }
             }
         }
@@ -262,36 +272,4 @@ public class MainActivity extends AppCompatActivity {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
-
-    static class SensorTypeName {
-        private static String[] itsNames;
-
-        static {
-            itsNames = new String[20];
-            itsNames[0] = "未知";
-            itsNames[Sensor.TYPE_ACCELEROMETER] = "加速度";
-            itsNames[Sensor.TYPE_MAGNETIC_FIELD] = "磁力";
-            itsNames[Sensor.TYPE_ORIENTATION] = "方向";
-            itsNames[Sensor.TYPE_GYROSCOPE] = "陀螺仪";
-            itsNames[Sensor.TYPE_LIGHT] = "光线感应";
-            itsNames[Sensor.TYPE_PRESSURE] = "压力";
-            itsNames[Sensor.TYPE_TEMPERATURE] = "温度";
-            itsNames[Sensor.TYPE_PROXIMITY] = "接近,距离传感器";
-            itsNames[Sensor.TYPE_GRAVITY] = "重力";
-            itsNames[Sensor.TYPE_LINEAR_ACCELERATION] = "线性加速度";
-            itsNames[Sensor.TYPE_ROTATION_VECTOR] = "旋转矢量";
-            itsNames[Sensor.TYPE_RELATIVE_HUMIDITY] = "TYPE_RELATIVE_HUMIDITY";
-            itsNames[Sensor.TYPE_AMBIENT_TEMPERATURE] = "TYPE_AMBIENT_TEMPERATURE";
-            itsNames[13] = "TYPE_AMBIENT_TEMPERATURE";
-            itsNames[14] = "TYPE_MAGNETIC_FIELD_UNCALIBRATED";
-            //itsNames[Sensor.TYPE_GAME_ROTATION_VECTOR] = "TYPE_GAME_ROTATION_VECTOR";
-        }
-
-        public static String getSensorTypeName(int type) {
-            if (type > 0 && type < itsNames.length) {
-                return itsNames[type];
-            }
-            return "未知";
-        }
-    }
 }

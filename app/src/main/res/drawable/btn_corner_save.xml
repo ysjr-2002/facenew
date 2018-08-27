@@ -19,7 +19,7 @@
                 android:width= "2dp"
                 android:color= "@color/color_blue" />
             <!--定义实心颜色，也就是填充颜色值-->
-            <solid android:color="#ffffff" />
+            <solid android:color="@color/color_blue" />
             <!--阴影-->
         </shape>
     </item>

@@ -59,7 +59,7 @@ public class WSHelper {
         try {
             init();
             client.connect();
-            are.waitOne();
+            are.waitOne(5000);
             return open;
         } catch (Exception e) {
             e.printStackTrace();

@@ -17,9 +17,9 @@
             <corners android:radius="10dp"/>
             <stroke
                 android:width= "2dp"
-                android:color= "@color/color_red" />
+                android:color= "#f3f3f3" />
             <!--定义实心颜色，也就是填充颜色值-->
-            <solid android:color="#ffffff" />
+            <solid android:color="#f3f3f3" />
             <!--阴影-->
         </shape>
     </item>

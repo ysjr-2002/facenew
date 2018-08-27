@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.visitor.tengli.face.fs.WSHelper;
 import com.visitor.tengli.face.helpers.SharedPreferencesHelper;
+import com.visitor.tengli.face.util.IPHelper;
 
 public class InitActivity extends BaseActivity {
 
@@ -25,9 +26,12 @@ public class InitActivity extends BaseActivity {
         if (TextUtils.isEmpty(koala) || TextUtils.isEmpty(camera)) {
             goToSettingActivity();
         } else {
-            WSHelper ws = new WSHelper(koala, camera);
-            boolean open = ws.Open();
-            ws.Close();
+//            WSHelper ws = new WSHelper(koala, camera);
+//            boolean open = ws.Open();
+//            ws.Close();
+            boolean a = IPHelper.startPing(koala);
+            boolean b = IPHelper.startPing(camera);
+            boolean open = (a && b);
             if (open) {
                 goToMainActivity();
 

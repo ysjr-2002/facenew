@@ -8,6 +8,7 @@
     tools:context=".RtspActivity">
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorPrimaryDark"
@@ -64,11 +65,25 @@
                     android:layout_weight="1"
                     android:background="#4d6ea1"
                     android:gravity="center">
+                    
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:background="@null"
+                        android:layout_height="match_parent">
+                        
+                        <ImageView
+                            android:src="@mipmap/scan_circle"
+                            android:layout_width="450dp"
+                            android:layout_gravity="center"
+                            android:layout_height="450dp" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/image_face"
-                        android:layout_width="400dp"
-                        android:layout_height="400dp" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_face"
+                            android:layout_width="400dp"
+                            android:layout_gravity="center"
+                            android:layout_height="400dp" />
+                    </FrameLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
