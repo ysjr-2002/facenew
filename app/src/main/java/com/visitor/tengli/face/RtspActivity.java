@@ -1,5 +1,6 @@
 package com.visitor.tengli.face;
 
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -8,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hwit.HwitManager;
 import com.squareup.picasso.Picasso;
@@ -26,21 +27,28 @@ import com.visitor.tengli.face.core.IFaceListener;
 import com.visitor.tengli.face.core.LightHelper;
 import com.visitor.tengli.face.fs.WebSocketHelper;
 import com.visitor.tengli.face.helpers.SharedPreferencesHelper;
+import com.visitor.tengli.face.util.Config;
 import com.visitor.tengli.face.util.IPHelper;
 import com.visitor.tengli.face.util.LightColor;
 import com.visitor.tengli.face.util.SensorTypeName;
 import com.visitor.tengli.face.util.ToastUtil;
 import com.visitor.tengli.face.view.DiffuseView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RtspActivity extends AppCompatActivity implements IFaceListener {
+public class RtspActivity extends BaseActivity implements IFaceListener {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -76,20 +84,32 @@ public class RtspActivity extends AppCompatActivity implements IFaceListener {
     final int cpu_min_temperature = 30;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rtsp);
-        ButterKnife.bind(this);
+    int getLayout() {
+        return R.layout.activity_rtsp;
+    }
 
+
+    //600 998 0.75 120
+
+    @Override
+    void create() {
         koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
         camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
         initView();
 
+        lightHelper.setFaceListerner(this);
+        lightHelper.setContext(this);
         lightHelper.run();
 
-        diffuseView.start();
-
+        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        allSensors = sm.getSensorList(Sensor.TYPE_ALL);
         getcpu();
+    }
+
+    @Override
+    protected void initInject() {
+
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -144,10 +164,16 @@ public class RtspActivity extends AppCompatActivity implements IFaceListener {
 
         });
 
-//        webview.loadUrl("http://127.0.0.1:8080/browserfs.html");
-        webview.loadUrl("http://www.baidu.com");
+        webview.loadUrl("http://127.0.0.1:8080/browserfs.html");
+//        webview.loadUrl("http://www.baidu.com");
         webSocketHelper = new WebSocketHelper(this, koala, camera, handler);
         webSocketHelper.open();
+
+        int width = this.getResources().getDisplayMetrics().widthPixels;
+        int height = this.getResources().getDisplayMetrics().heightPixels;
+        float scale = this.getResources().getDisplayMetrics().scaledDensity;
+        int qq = this.getResources().getDisplayMetrics().densityDpi;
+//        ToastUtil.Show(this, "" + width + " " + height + " " + scale + " " + qq);
     }
 
     private Handler handler = new Handler(new Handler.Callback() {
@@ -193,8 +219,6 @@ public class RtspActivity extends AppCompatActivity implements IFaceListener {
 
     private void getcpu() {
 
-        boolean result = IPHelper.startPing("192.168.8.54");
-
         String typeName = "";
         Sensor mTempSensor = null;
         StringBuilder sb = new StringBuilder();
@@ -218,6 +242,8 @@ public class RtspActivity extends AppCompatActivity implements IFaceListener {
         if (mTempSensor != null) {
             sm.registerListener(mSensorEventListener, mTempSensor
                     , SensorManager.SENSOR_DELAY_GAME);
+        } else {
+            Toast.makeText(getApplicationContext(), "没有温度感应器", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -225,20 +251,23 @@ public class RtspActivity extends AppCompatActivity implements IFaceListener {
     final SensorEventListener mSensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-                if (event.sensor.getStringType().toUpperCase().indexOf("TEMP") > 0) {
-                    /*温度传感器返回当前的温度，单位是摄氏度（°C）。*/
-                    float temperature = event.values[0];
-                    Log.e("temperature: ", String.valueOf(temperature));
-                    tvTitle.setText("人脸识别通道->" + temperature);
+            if (event.sensor.getStringType().toUpperCase().indexOf("TEMP") > 0) {
+                /*温度传感器返回当前的温度，单位是摄氏度（°C）。*/
+                float temperature = event.values[0];
+                Toast.makeText(RtspActivity.this, "shit->" + temperature, Toast.LENGTH_LONG).show();
+                Log.e("temperature: ", String.valueOf(temperature));
+                tvTitle.setText("人脸识别通道->" + temperature);
 
-                    if (temperature > cpu_max_temperature) {
-                        HwitManager.HwitSetIOValue(4, 1);
-                    }
-                    if (temperature < cpu_min_temperature) {
-                        HwitManager.HwitSetIOValue(4, 0);
-                    }
+//                cputemp();
+
+                if (temperature > cpu_max_temperature) {
+                    HwitManager.HwitSetIOValue(4, 1);
                 }
+                if (temperature < cpu_min_temperature) {
+                    HwitManager.HwitSetIOValue(4, 0);
+                }
+            } else {
+                ToastUtil.Show(RtspActivity.this, "???????????????????????");
             }
         }
 
@@ -247,16 +276,65 @@ public class RtspActivity extends AppCompatActivity implements IFaceListener {
         }
     };
 
+    private void cputemp() {
+
+//        String path = "/sys/class/thermal/thermal_zone";
+        List<String> list = new ArrayList<String>();
+//        list.add("/sys/devices/system/cpu/cpu0/cpufreq/cpu_temp");
+//        list.add("/sys/devices/system/cpu/cpu0/cpufreq/FakeShmoo_cpu_temp");
+//        list.add("/sys/class/thermal/thermal_zone0/temp");
+//        list.add("/sys/class/i2c-adapter/i2c-4/4-004c/temperature");
+//        list.add("/sys/devices/platform/tegra-i2c.3/i2c-4/4-004c/temperature");
+//        list.add("/sys/devices/platform/omap/omap_temp_sensor.0/temperature");
+//        list.add("/sys/devices/platform/tegra_tmon/temp1_input");
+//        list.add("/sys/kernel/debug/tegra_thermal/temp_tj");
+//        list.add("/sys/devices/platform/s5p-tmu/temperature");
+//        list.add("/sys/class/thermal/thermal_zone1/temp");
+        list.add("/sys/class/hwmon/hwmon0/device/temp1_input");
+//        list.add("/sys/devices/virtual/thermal/thermal_zone1/temp");
+//        list.add("/sys/devices/platform/s5p-tmu/curr_temp");
+//        list.add("/sys/devices/virtual/thermal/thermal_zone0/temp");
+//        list.add("/sys/class/thermal/thermal_zone3/temp");
+//        list.add("/sys/class/thermal/thermal_zone4/temp");
+        /*for (int i = 0; i <= 9; i++) {
+
+            String a = path + i + "/type";
+            String b = path + i + "/temp";
+
+            String temp = readfile(b);
+            int x = Integer.parseInt(temp) / 1000;
+            String c = "type->" + readfile(a) + " temperature->" + x;
+            Log.d(Config.tag, c);
+            Toast.makeText(this, temp, Toast.LENGTH_SHORT).show();
+        }*/
+//        for (String p : list
+//                ) {
+//            String temp = readfile(p);
+//            Toast.makeText(this, temp, Toast.LENGTH_SHORT).show();
+//        }
+    }
+
     @Override
     public void near() {
 
-        diffuseView.setVisibility(View.INVISIBLE);
-        diffuseView.stop();
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                diffuseView.setVisibility(View.INVISIBLE);
+                diffuseView.stop();
+            }
+        });
     }
 
     @Override
     public void leave() {
-        diffuseView.setVisibility(View.VISIBLE);
-        diffuseView.start();
+
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                diffuseView.setVisibility(View.VISIBLE);
+                diffuseView.start();
+            }
+        });
     }
 }

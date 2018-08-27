@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="100dp"
         android:background="@color/colorPrimaryDark"
         android:foreground="@color/white"
         android:gravity="center"
@@ -25,15 +25,15 @@
 
         <WebView
             android:id="@+id/webview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="600dp"
+            android:layout_height="1000dp"
             android:layout_gravity="center">
         </WebView>
 
         <com.visitor.tengli.face.view.DiffuseView
             android:id="@+id/diffuseView"
-            android:layout_width="700dp"
-            android:layout_height="700dp"
+            android:layout_width="500dp"
+            android:layout_height="500dp"
             android:layout_gravity="center"
             app:diffuse_color="@color/color_blue_light"
             app:diffuse_coreColor="@color/color_blue"
@@ -44,7 +44,7 @@
 
         <FrameLayout
             android:id="@+id/rl_face_root"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_marginTop="140dp"
             android:layout_marginBottom="140dp"
             android:layout_marginLeft="80dp"
@@ -79,9 +79,9 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/image_face"
-                            android:layout_width="400dp"
+                            android:layout_width="360dp"
                             android:layout_gravity="center"
-                            android:layout_height="400dp" />
+                            android:layout_height="360dp" />
                     </FrameLayout>
 
                 </LinearLayout>
@@ -106,7 +106,7 @@
                         android:gravity="center"
                         android:text="欢迎光临"
                         android:textColor="#ffffff"
-                        android:textSize="18sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/tvopen"
@@ -117,7 +117,7 @@
                         android:gravity="center"
                         android:text="开闸成功"
                         android:textColor="#ffffff"
-                        android:textSize="18sp" />
+                        android:textSize="30sp" />
 
                     <View
                         android:layout_weight="1"
