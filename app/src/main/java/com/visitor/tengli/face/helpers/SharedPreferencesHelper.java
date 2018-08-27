@@ -3,10 +3,16 @@ package com.visitor.tengli.face.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.visitor.tengli.face.di.scope.ContextLife;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Created by ysj on 2018/2/27.
  */
 
+@Singleton
 public class SharedPreferencesHelper {
 
     private SharedPreferences mPref;
@@ -16,19 +22,10 @@ public class SharedPreferencesHelper {
     public static final String CAMERA_IP = "camera";
     public static final String WELCOME = "welcome";
 
-    private SharedPreferencesHelper(Context context) {
+    @Inject
+    public SharedPreferencesHelper(@ContextLife Context context) {
         this.context = context;
         mPref = context.getSharedPreferences("dalu", Context.MODE_PRIVATE);
-    }
-
-    private static SharedPreferencesHelper helper;
-
-    public static SharedPreferencesHelper getInstance(Context context) {
-
-        if (helper == null) {
-            helper = new SharedPreferencesHelper(context);
-        }
-        return helper;
     }
 
     public void setStringValue(String tag, String value) {

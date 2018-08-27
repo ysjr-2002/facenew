@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".CenterActivity">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_gravity="left"
+        android:text="test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <View
         android:background="#345668"
         android:layout_width="100dp"
@@ -17,5 +24,7 @@
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:layout_height="match_parent"></WebView>
+
+
 
 </FrameLayout>

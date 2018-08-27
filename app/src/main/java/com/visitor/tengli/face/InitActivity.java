@@ -2,13 +2,20 @@ package com.visitor.tengli.face;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.visitor.tengli.face.core.LightHelper;
 import com.visitor.tengli.face.fs.WSHelper;
 import com.visitor.tengli.face.helpers.SharedPreferencesHelper;
+import com.visitor.tengli.face.model.Student;
+import com.visitor.tengli.face.util.Config;
 import com.visitor.tengli.face.util.IPHelper;
+
+import javax.inject.Inject;
 
 public class InitActivity extends BaseActivity {
 
+    @Inject
     SharedPreferencesHelper sp;
 
     @Override
@@ -18,7 +25,7 @@ public class InitActivity extends BaseActivity {
 
     @Override
     void create() {
-        sp = SharedPreferencesHelper.getInstance(this);
+        Log.d(Config.tag, "Init->" + sp.toString());
 
         final String koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
         final String camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
@@ -40,6 +47,12 @@ public class InitActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    protected void initInject() {
+        getActivityComponent().inject(this);
+    }
+
 
     private void goToMainActivity() {
         Intent intent = new Intent(this, RtspActivity.class);

@@ -6,10 +6,15 @@ import com.visitor.tengli.face.util.LightColor;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * created by yangshaojie  on 2018/8/27
  * email: ysjr-2002@163.com
  */
+
+@Singleton
 public class LightHelper {
 
     long currenttime;
@@ -20,6 +25,11 @@ public class LightHelper {
 
     final int ligth_green_to_white = 3000;
     final int ligth_red_to_white = 5000;
+
+    @Inject
+    public LightHelper() {
+
+    }
 
     public void setFaceNear(IFaceListener faceNear) {
         this.faceNear = faceNear;

@@ -3,6 +3,7 @@ package com.visitor.tengli.face;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,7 +11,10 @@ import android.widget.LinearLayout;
 
 import com.visitor.tengli.face.fs.WSHelper;
 import com.visitor.tengli.face.helpers.SharedPreferencesHelper;
+import com.visitor.tengli.face.util.Config;
 import com.visitor.tengli.face.util.ToastUtil;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +34,7 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.root)
     LinearLayout root;
 
+    @Inject
     SharedPreferencesHelper sp;
 
     @Override
@@ -41,7 +46,9 @@ public class SettingActivity extends BaseActivity {
     @Override
     void create() {
 
-        sp = SharedPreferencesHelper.getInstance(this);
+        Log.d(Config.tag, "sett->" + sp.toString());
+
+//        sp = SharedPreferencesHelper.getInstance(this);
         String koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
         String camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
 
@@ -51,6 +58,12 @@ public class SettingActivity extends BaseActivity {
         }
         etKoala.setText(koala);
         etCamera.setText(camera);
+    }
+
+    @Override
+    protected void initInject() {
+
+        getActivityComponent().inject(this);
     }
 
 

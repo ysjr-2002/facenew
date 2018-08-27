@@ -34,6 +34,8 @@ import com.visitor.tengli.face.view.DiffuseView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -52,17 +54,20 @@ public class RtspActivity extends AppCompatActivity implements IFaceListener {
     TextView tvopen;
     @BindView(R.id.rl_face_root)
     FrameLayout rlFaceRoot;
-
-    String koala;
-    String camera;
-    SharedPreferencesHelper sp;
     @BindView(R.id.tv_vip_name)
     TextView tvVipName;
     @BindView(R.id.diffuseView)
     DiffuseView diffuseView;
 
-    WebSocketHelper webSocketHelper;
+    String koala;
+    String camera;
+    @Inject
+    SharedPreferencesHelper sp;
+    @Inject
     LightHelper lightHelper;
+
+    WebSocketHelper webSocketHelper;
+
 
     SensorManager sm = null;
     List<Sensor> allSensors = null;
@@ -76,12 +81,10 @@ public class RtspActivity extends AppCompatActivity implements IFaceListener {
         setContentView(R.layout.activity_rtsp);
         ButterKnife.bind(this);
 
-        sp = SharedPreferencesHelper.getInstance(this);
         koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
         camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
         initView();
 
-        lightHelper = new LightHelper();
         lightHelper.run();
 
         diffuseView.start();
@@ -98,7 +101,6 @@ public class RtspActivity extends AppCompatActivity implements IFaceListener {
     }
 
     private void showface(String avatar) {
-
 
         Picasso.with(this).load(avatar).into(imageFace);
         rlFaceRoot.setVisibility(View.VISIBLE);
