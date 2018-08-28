@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         getcpu();
 
         float a = 23.4f;
-        int b = (int)a;
+        int b = (int) a;
         String c = "";
 
     }
@@ -222,9 +222,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void getcpu() {
-
-        boolean result = IPHelper.startPing("192.168.8.54");
-
         String typeName = "";
         Sensor mTempSensor = null;
         StringBuilder sb = new StringBuilder();
@@ -232,9 +229,8 @@ public class MainActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 typeName = SensorTypeName.getSensorTypeName(s.getType()) + " " + s.getStringType();
                 if (s.getStringType().toUpperCase().indexOf("TEMP") > 0) {
-                    // 可以看到，这里将包含有TEMP关键字的sensor付给了变量mTempSensor
-                    // 而这个mTempSensor 就是我们需要的温度传感器
                     mTempSensor = s;
+                    String temp1 = s.getStringType();
                 }
             } else {
                 typeName = SensorTypeName.getSensorTypeName(s.getType()) + " " + s.getType();
@@ -245,26 +241,26 @@ public class MainActivity extends AppCompatActivity {
             sb.append(String.format("\t供应商:%s\n", s.getVendor()));
             sb.append("\n");
         }
+        String x = sb.toString();
         Log.d(Config.tag, sb.toString());
         // 如果传感器不为空，那么我们就可添加一个监听，获取传感器的温度情况
+
+
+//        mTempSensor = sm.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         if (mTempSensor != null) {
             sm.registerListener(mSensorEventListener, mTempSensor
                     , SensorManager.SENSOR_DELAY_GAME);
         }
-
     }
 
     // 温度传感器的监听器
     final SensorEventListener mSensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-                if (event.sensor.getStringType().toUpperCase().indexOf("TEMP") > 0) {
-                    /*温度传感器返回当前的温度，单位是摄氏度（°C）。*/
-                    float temperature = event.values[0];
-                    Log.e("temperature: ", String.valueOf(temperature));
-                    tvCpuState.setText(String.valueOf(temperature));
-                }
+            if (event.sensor.getType() == Sensor.TYPE_TEMPERATURE || event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {      /*温度传感器返回当前的温度，单位是摄氏度（°C）。*/
+                float temperature = event.values[0];
+                Log.e("temperature: ", String.valueOf(temperature));
+                tvCpuState.setText(String.valueOf(temperature));
             }
         }
 

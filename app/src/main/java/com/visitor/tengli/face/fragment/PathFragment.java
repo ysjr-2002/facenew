@@ -35,6 +35,7 @@ public class PathFragment extends Fragment {
     Context context;
     @BindView(R.id.tv_content)
     TextView tvContent;
+
     Unbinder unbinder;
 
     @Override
@@ -48,10 +49,8 @@ public class PathFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_path, container, false);
-
-        read();
-
         unbinder = ButterKnife.bind(this, view);
+        read();
         return view;
     }
 

@@ -1,9 +1,11 @@
 package com.visitor.tengli.face.core;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.hwit.HwitManager;
+import com.visitor.tengli.face.util.Config;
 import com.visitor.tengli.face.util.Light;
 import com.visitor.tengli.face.util.LightColor;
 
@@ -61,9 +63,10 @@ public class LightHelper {
                 String path = "/sys/class/hwmon/hwmon0/device/temp1_input";
                 String temp = readfile(path);
                 int x = Integer.parseInt(temp);
-                Toast.makeText(context, "" + x, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "" + x, Toast.LENGTH_SHORT).show();
 
-                if (x > 50) {
+                if (x >= 30) {
+                    Log.d(Config.tag, "shit->" + x);
                     HwitManager.HwitSetIOValue(4, 1);
                 } else {
                     HwitManager.HwitSetIOValue(4, 0);
