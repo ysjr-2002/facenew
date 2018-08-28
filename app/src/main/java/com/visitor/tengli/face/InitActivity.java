@@ -11,6 +11,8 @@ import com.visitor.tengli.face.model.Student;
 import com.visitor.tengli.face.util.Config;
 import com.visitor.tengli.face.util.IPHelper;
 
+import java.util.logging.Handler;
+
 import javax.inject.Inject;
 
 public class InitActivity extends BaseActivity {
@@ -27,25 +29,32 @@ public class InitActivity extends BaseActivity {
     void create() {
         Log.d(Config.tag, "Init->" + sp.toString());
 
-        final String koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
-        final String camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
+        android.os.Handler handler = new android.os.Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final String koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
+                final String camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
 
-        if (TextUtils.isEmpty(koala) || TextUtils.isEmpty(camera)) {
-            goToSettingActivity();
-        } else {
-//            WSHelper ws = new WSHelper(koala, camera);
-//            boolean open = ws.Open();
-//            ws.Close();
-            boolean a = IPHelper.startPing(koala);
-            boolean b = IPHelper.startPing(camera);
-            boolean open = (a && b);
-            if (open) {
-                goToMainActivity();
+//                if (TextUtils.isEmpty(koala) || TextUtils.isEmpty(camera)) {
+//                    goToSettingActivity();
+//                } else {
+//                    boolean a = IPHelper.startPing(koala);
+//                    boolean b = IPHelper.startPing(camera);
+//                    boolean open = (a && b);
+//                    if (open) {
+//                        goToMainActivity();
+//
+//                    } else {
+//                        goToSettingActivity();
+//                    }
+//                }
 
-            } else {
-                goToSettingActivity();
+                Intent intent = new Intent(InitActivity.this, HomeActivity.class);
+                startActivity(intent);
+                InitActivity.this.finish();
             }
-        }
+        }, 5 * 1000);
     }
 
     @Override

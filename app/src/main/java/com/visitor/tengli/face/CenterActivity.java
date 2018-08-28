@@ -44,18 +44,9 @@ public class CenterActivity extends BaseActivity {
 
     @Override
     void create() {
-        //DaggerMyComponent.builder().myModule(new MyModule(getApplication())).build().inject(this);
-        String name = student1.getName();
-        String x = student1.toString();
-        String y = student1.toString();
-
-        if (x.equals(y)) {
-            String ok = "";
-        }
 
         String koala = sharedPreferencesHelper.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
         String temp = "";
-
         cpu();
     }
 
