@@ -47,6 +47,8 @@ public class SensorFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        Bundle bundle = getArguments();
+        String  key = bundle.getString("key");
         this.context = activity;
     }
 
@@ -57,6 +59,7 @@ public class SensorFragment extends Fragment {
         super.onAttach(context);
         this.context = context;
     }
+
 
     @Nullable
     @Override
@@ -82,7 +85,7 @@ public class SensorFragment extends Fragment {
         StringBuilder sb = new StringBuilder();
         for (Sensor s : list
                 ) {
-//            Log.d(Config.tag, s.getType() + " kk=" + s.getStringType());
+
             String typeName = SensorTypeName.getSensorTypeName(s.getType()) + " " + s.getStringType();
             sb.append(String.format("\t类型:%s\n", typeName));
             sb.append(String.format("\t名称:%s\n", s.getName()));
@@ -97,7 +100,7 @@ public class SensorFragment extends Fragment {
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, items);
 //        lvSensor.setAdapter(adapter);
 
-        sensorTemperature = sm.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        sensorTemperature = sm.getDefaultSensor(Sensor.TYPE_TEMPERATURE);
         if (sensorTemperature != null) {
             sm.registerListener(mSensorEventListener, sensorTemperature, SensorManager.SENSOR_DELAY_NORMAL);
         }
@@ -107,7 +110,7 @@ public class SensorFragment extends Fragment {
         @Override
         public void onSensorChanged(SensorEvent event) {
 
-            if (event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
+            if (event.sensor.getType() == Sensor.TYPE_TEMPERATURE) {
                 float temperature = event.values[0];
                 tvTemperature.setText("温度:" + temperature);
             }

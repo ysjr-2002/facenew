@@ -1,19 +1,30 @@
 package com.visitor.tengli.face;
 
-import android.net.LinkAddress;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.visitor.tengli.face.util.Config;
+import com.visitor.tengli.face.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class StudyActivity extends BaseActivity {
 
+
+    @BindView(R.id.button)
+    Button button;
 
     @Override
     int getLayout() {
@@ -49,6 +60,22 @@ public class StudyActivity extends BaseActivity {
 //        hash();
         //list_int();
         list_str();
+        getdisplay();
+
+
+        String a = "12";
+        String b = a.concat("23");
+    }
+
+    private void getdisplay() {
+
+        DisplayMetrics dm = this.getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+        int di = dm.densityDpi;
+
+        Toast.makeText(this, String.format("width %s height %s dpi %s", width, height, di), Toast.LENGTH_SHORT).show();
     }
 
     private void list_str() {
@@ -59,7 +86,7 @@ public class StudyActivity extends BaseActivity {
         list.add("ccc");
 
         String x = list.get(1);
-        if (x == "bbb") {
+        if (TextUtils.equals(list.get(1), "bbb")) {
 
             String temp = "";
         }
@@ -134,4 +161,22 @@ public class StudyActivity extends BaseActivity {
     protected void initInject() {
 
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.button)
+    public void onViewClicked() {
+
+        int width = button.getWidth();
+        int height = button.getHeight();
+        ToastUtil.Show(this, "width=" + width + " height=" + height);
+        LinearLayout.LayoutParams test = new LinearLayout.LayoutParams(300, 92);
+        button.setLayoutParams(test);
+    }
+
 }

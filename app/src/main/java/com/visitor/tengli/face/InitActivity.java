@@ -54,7 +54,7 @@ public class InitActivity extends BaseActivity {
                 startActivity(intent);
                 InitActivity.this.finish();
             }
-        }, 2 * 1000);
+        }, 1 * 1000);
     }
 
     @Override

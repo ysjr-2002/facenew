@@ -48,6 +48,10 @@ public class CPUActivity extends AppCompatActivity implements RadioGroup.OnCheck
 
             FragmentTransaction ft = fm.beginTransaction();
             SensorFragment a = new SensorFragment();
+            //传递参数
+            Bundle bundle  =new Bundle();
+            bundle.putString("key", "ysj");
+            a.setArguments(bundle);
             ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).replace(R.id.flroot, a, "a");
             ft.addToBackStack(null);
             ft.commit();

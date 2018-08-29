@@ -37,7 +37,7 @@
         <activity android:name=".RtspActivity" />
         <activity android:name=".CPUActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".StudyActivity"></activity>
+        <activity android:name=".StudyActivity" />
     </application>
 
 </manifest>
