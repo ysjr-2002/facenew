@@ -18,6 +18,8 @@ public class HomeActivity extends AppCompatActivity {
     Button btnCpu;
     @BindView(R.id.btn_face)
     Button btnFace;
+    @BindView(R.id.btn_study)
+    Button btnStudy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btn_main, R.id.btn_cpu, R.id.btn_face})
+    @OnClick({R.id.btn_main, R.id.btn_cpu, R.id.btn_face, R.id.btn_study})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_main:
@@ -40,6 +42,10 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.btn_face:
                 Intent c = new Intent(this, RtspActivity.class);
                 startActivity(c);
+                break;
+            case R.id.btn_study:
+                Intent d = new Intent(this, StudyActivity.class);
+                startActivity(d);
                 break;
         }
     }
