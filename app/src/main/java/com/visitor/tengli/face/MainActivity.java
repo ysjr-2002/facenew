@@ -99,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
         init();
         initTimerTask();
 
-        getcpu();
-
         float a = 23.4f;
         int b = (int) a;
         String c = "";
@@ -110,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        sm.unregisterListener(mSensorEventListener);
         unbinder.unbind();
     }
 
@@ -120,25 +117,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-//                Log.d("ysj", "当前时间->" + DateUtil.getCurrentDateTime());
-//                int result = HwitManager.HwitGetIrqIOValue(1);
-//                if (result == 1) {
-//                    //有人
-//                    //开灯
-//
-//                    closeLigthHandler.removeMessages(0);
-//                }
-//                else
-//                {
-//                    //无人
-//                }
-//                closeLigthHandler.removeMessages(0);
+                int temp = HwitManager.HwitGetCpuTemp();
+                Message msg = new Message();
+                msg.what = 101;
+                msg.arg1 = temp;
+                closeLigthHandler.sendMessage(msg);
             }
         };
 
         timer = new Timer();
         Log.d(Config.tag, DateUtil.getCurrentDateTime());
-        timer.schedule(timerTask, 5000, 1000);
+        timer.schedule(timerTask, 1000, 1000);
     }
 
     //关灯
@@ -152,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (msg.what == 101) {
 
+                tvCpuState.setText("温度:" + msg.arg1);
             }
             return false;
         }
@@ -220,52 +210,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void getcpu() {
-        String typeName = "";
-        Sensor mTempSensor = null;
-        StringBuilder sb = new StringBuilder();
-        for (Sensor s : allSensors) {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-                typeName = SensorTypeName.getSensorTypeName(s.getType()) + " " + s.getStringType();
-                if (s.getStringType().toUpperCase().indexOf("TEMP") > 0) {
-                    mTempSensor = s;
-                    String temp1 = s.getStringType();
-                }
-            } else {
-                typeName = SensorTypeName.getSensorTypeName(s.getType()) + " " + s.getType();
-            }
-            sb.append(String.format("\t类型:%s\n", typeName));
-            sb.append(String.format("\t设备名称:%s\n", s.getName()));
-            sb.append(String.format("\t设备版本:%s\n", s.getVersion()));
-            sb.append(String.format("\t供应商:%s\n", s.getVendor()));
-            sb.append("\n");
-        }
-        String x = sb.toString();
-        Log.d(Config.tag, sb.toString());
-        // 如果传感器不为空，那么我们就可添加一个监听，获取传感器的温度情况
-
-
-//        mTempSensor = sm.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        if (mTempSensor != null) {
-            sm.registerListener(mSensorEventListener, mTempSensor
-                    , SensorManager.SENSOR_DELAY_GAME);
-        }
+        int temp = HwitManager.HwitGetCpuTemp();
+        tvCpuState.setText("温度:" + temp);
     }
-
-    // 温度传感器的监听器
-    final SensorEventListener mSensorEventListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            if (event.sensor.getType() == Sensor.TYPE_TEMPERATURE || event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {      /*温度传感器返回当前的温度，单位是摄氏度（°C）。*/
-                float temperature = event.values[0];
-                Log.e("temperature: ", String.valueOf(temperature));
-                tvCpuState.setText(String.valueOf(temperature));
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
-    };
 }

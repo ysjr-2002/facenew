@@ -60,13 +60,14 @@ public class LightHelper {
             @Override
             public void run() {
 
-                String path = "/sys/class/hwmon/hwmon0/device/temp1_input";
-                String temp = readfile(path);
-                int x = Integer.parseInt(temp);
-                //Toast.makeText(context, "" + x, Toast.LENGTH_SHORT).show();
+                int temperature = 0;
+                try {
+                    HwitManager.HwitGetCpuTemp();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
-                if (x >= 30) {
-                    Log.d(Config.tag, "shit->" + x);
+                if (temperature >= 50) {
                     HwitManager.HwitSetIOValue(4, 1);
                 } else {
                     HwitManager.HwitSetIOValue(4, 0);
