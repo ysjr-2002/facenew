@@ -76,13 +76,6 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
     LightHelper lightHelper;
 
     WebSocketHelper webSocketHelper;
-
-
-    SensorManager sm = null;
-    List<Sensor> allSensors = null;
-
-    final int cpu_max_temperature = 50;
-    final int cpu_min_temperature = 30;
     @BindView(R.id.imageview_openstate)
     ImageView imageviewOpenstate;
 
@@ -104,10 +97,6 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
         lightHelper.setFaceListerner(this);
         lightHelper.setContext(this);
         lightHelper.run();
-
-        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        allSensors = sm.getSensorList(Sensor.TYPE_ALL);
-        getcpu();
     }
 
     @Override
@@ -119,7 +108,6 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        sm.unregisterListener(mSensorEventListener);
         lightHelper.stop();
         diffuseView.stop();
     }
@@ -233,104 +221,6 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
             return false;
         }
     });
-
-
-    private void getcpu() {
-
-        String typeName = "";
-        Sensor mTempSensor = null;
-        StringBuilder sb = new StringBuilder();
-        for (Sensor s : allSensors) {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-                typeName = SensorTypeName.getSensorTypeName(s.getType()) + " " + s.getStringType();
-                if (s.getStringType().toUpperCase().indexOf("TEMP") > 0) {
-                    mTempSensor = s;
-                    break;
-                }
-            } else {
-                typeName = SensorTypeName.getSensorTypeName(s.getType()) + " " + s.getType();
-            }
-            sb.append(String.format("\t类型:%s\n", typeName));
-            sb.append(String.format("\t设备名称:%s\n", s.getName()));
-            sb.append(String.format("\t设备版本:%s\n", s.getVersion()));
-            sb.append(String.format("\t供应商:%s\n", s.getVendor()));
-            sb.append("\n");
-        }
-
-        if (mTempSensor != null) {
-            sm.registerListener(mSensorEventListener, mTempSensor
-                    , SensorManager.SENSOR_DELAY_GAME);
-        } else {
-            Toast.makeText(getApplicationContext(), "没有温度感应器", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    // 温度传感器的监听器
-    final SensorEventListener mSensorEventListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            if (event.sensor.getStringType().toUpperCase().indexOf("TEMP") > 0) {
-                /*温度传感器返回当前的温度，单位是摄氏度（°C）。*/
-                float temperature = event.values[0];
-                Toast.makeText(RtspActivity.this, "shit->" + temperature, Toast.LENGTH_LONG).show();
-                Log.e("temperature: ", String.valueOf(temperature));
-                tvTitle.setText("人脸识别通道->" + temperature);
-
-//                cputemp();
-
-                if (temperature > cpu_max_temperature) {
-                    HwitManager.HwitSetIOValue(4, 1);
-                }
-                if (temperature < cpu_min_temperature) {
-                    HwitManager.HwitSetIOValue(4, 0);
-                }
-            } else {
-                ToastUtil.Show(RtspActivity.this, "???????????????????????");
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
-    };
-
-    private void cputemp() {
-
-//        String path = "/sys/class/thermal/thermal_zone";
-        List<String> list = new ArrayList<String>();
-//        list.add("/sys/devices/system/cpu/cpu0/cpufreq/cpu_temp");
-//        list.add("/sys/devices/system/cpu/cpu0/cpufreq/FakeShmoo_cpu_temp");
-//        list.add("/sys/class/thermal/thermal_zone0/temp");
-//        list.add("/sys/class/i2c-adapter/i2c-4/4-004c/temperature");
-//        list.add("/sys/devices/platform/tegra-i2c.3/i2c-4/4-004c/temperature");
-//        list.add("/sys/devices/platform/omap/omap_temp_sensor.0/temperature");
-//        list.add("/sys/devices/platform/tegra_tmon/temp1_input");
-//        list.add("/sys/kernel/debug/tegra_thermal/temp_tj");
-//        list.add("/sys/devices/platform/s5p-tmu/temperature");
-//        list.add("/sys/class/thermal/thermal_zone1/temp");
-        list.add("/sys/class/hwmon/hwmon0/device/temp1_input");
-//        list.add("/sys/devices/virtual/thermal/thermal_zone1/temp");
-//        list.add("/sys/devices/platform/s5p-tmu/curr_temp");
-//        list.add("/sys/devices/virtual/thermal/thermal_zone0/temp");
-//        list.add("/sys/class/thermal/thermal_zone3/temp");
-//        list.add("/sys/class/thermal/thermal_zone4/temp");
-        /*for (int i = 0; i <= 9; i++) {
-
-            String a = path + i + "/type";
-            String b = path + i + "/temp";
-
-            String temp = readfile(b);
-            int x = Integer.parseInt(temp) / 1000;
-            String c = "type->" + readfile(a) + " temperature->" + x;
-            Log.d(Config.tag, c);
-            Toast.makeText(this, temp, Toast.LENGTH_SHORT).show();
-        }*/
-//        for (String p : list
-//                ) {
-//            String temp = readfile(p);
-//            Toast.makeText(this, temp, Toast.LENGTH_SHORT).show();
-//        }
-    }
 
     @Override
     public void near() {

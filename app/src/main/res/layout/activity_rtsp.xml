@@ -128,8 +128,9 @@
             </LinearLayout>
             <ImageView
                 android:id="@+id/imageview_openstate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitCenter"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:src="@mipmap/yz" />

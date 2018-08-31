@@ -62,7 +62,7 @@ public class LightHelper {
 
                 int temperature = 0;
                 try {
-                    HwitManager.HwitGetCpuTemp();
+                    temperature = HwitManager.HwitGetCpuTemp();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
