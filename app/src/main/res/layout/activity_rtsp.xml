@@ -115,7 +115,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:text="开闸成功"
+                        android:text="请通行"
                         android:textColor="#ffffff"
                         android:textSize="30sp" />
 
@@ -127,6 +127,7 @@
 
             </LinearLayout>
             <ImageView
+                android:id="@+id/imageview_openstate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

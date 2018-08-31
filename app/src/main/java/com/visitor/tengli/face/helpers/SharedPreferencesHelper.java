@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 import com.visitor.tengli.face.di.scope.ContextLife;
 
+import java.net.PortUnreachableException;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -20,7 +22,7 @@ public class SharedPreferencesHelper {
 
     public static final String KOALA_IP = "koala";
     public static final String CAMERA_IP = "camera";
-    public static final String WELCOME = "welcome";
+    public static final String STRANGER = "stranger";
 
     @Inject
     public SharedPreferencesHelper(@ContextLife Context context) {
@@ -34,8 +36,17 @@ public class SharedPreferencesHelper {
         editor.commit();
     }
 
+    public void setBooleanValue(String tag, boolean value) {
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putBoolean(tag, value);
+        editor.commit();
+    }
+
     public String getStringValue(String tag, String defaultValue) {
         return mPref.getString(tag, defaultValue);
     }
 
+    public boolean getBooleanValue(String tag, boolean defaultValue) {
+        return mPref.getBoolean(tag, defaultValue);
+    }
 }

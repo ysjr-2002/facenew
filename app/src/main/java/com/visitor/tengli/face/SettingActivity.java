@@ -2,10 +2,12 @@ package com.visitor.tengli.face;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -20,6 +22,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.visitor.tengli.face.helpers.SharedPreferencesHelper.CAMERA_IP;
+import static com.visitor.tengli.face.helpers.SharedPreferencesHelper.KOALA_IP;
+import static com.visitor.tengli.face.helpers.SharedPreferencesHelper.STRANGER;
+
 public class SettingActivity extends BaseActivity {
 
 
@@ -33,6 +39,8 @@ public class SettingActivity extends BaseActivity {
     Button btnSave;
     @BindView(R.id.root)
     LinearLayout root;
+    @BindView(R.id.cb_stranger)
+    CheckBox cbStranger;
 
     @Inject
     SharedPreferencesHelper sp;
@@ -49,8 +57,9 @@ public class SettingActivity extends BaseActivity {
         Log.d(Config.tag, "sett->" + sp.toString());
 
 //        sp = SharedPreferencesHelper.getInstance(this);
-        String koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
-        String camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
+        String koala = sp.getStringValue(KOALA_IP, "");
+        String camera = sp.getStringValue(CAMERA_IP, "");
+        boolean stranger = sp.getBooleanValue(STRANGER, false);
 
         if (TextUtils.isEmpty(koala) && TextUtils.isEmpty(camera)) {
             koala = "192.168.0.50";
@@ -58,6 +67,7 @@ public class SettingActivity extends BaseActivity {
         }
         etKoala.setText(koala);
         etCamera.setText(camera);
+        cbStranger.setChecked(stranger);
     }
 
     @Override
@@ -71,14 +81,16 @@ public class SettingActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnExit:
-                android.os.Process.killProcess(android.os.Process.myPid());
+                Process.killProcess(Process.myPid());
                 System.exit(0);
                 break;
             case R.id.btnSave:
                 String koala = etKoala.getText().toString();
                 String camera = etCamera.getText().toString();
-                sp.setStringValue(SharedPreferencesHelper.KOALA_IP, koala);
-                sp.setStringValue(SharedPreferencesHelper.CAMERA_IP, camera);
+                boolean stranger = cbStranger.isChecked();
+                sp.setStringValue(KOALA_IP, koala);
+                sp.setStringValue(CAMERA_IP, camera);
+                sp.setBooleanValue(STRANGER, stranger);
                 WSHelper ws = new WSHelper(koala, camera);
                 boolean open = ws.Open();
                 ws.Close();
@@ -92,5 +104,12 @@ public class SettingActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

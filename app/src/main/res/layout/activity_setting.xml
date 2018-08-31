@@ -72,6 +72,20 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="80dp">
+                <TextView
+                    android:text="陌生人:"
+                    style="@style/tvLogin" />
+
+                <CheckBox
+                    android:id="@+id/cb_stranger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:gravity="center"

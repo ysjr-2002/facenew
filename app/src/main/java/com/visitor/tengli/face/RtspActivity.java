@@ -1,6 +1,7 @@
 package com.visitor.tengli.face;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -18,6 +19,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,26 +29,24 @@ import com.visitor.tengli.face.core.IFaceListener;
 import com.visitor.tengli.face.core.LightHelper;
 import com.visitor.tengli.face.fs.WebSocketHelper;
 import com.visitor.tengli.face.helpers.SharedPreferencesHelper;
-import com.visitor.tengli.face.util.Config;
-import com.visitor.tengli.face.util.IPHelper;
+import com.visitor.tengli.face.util.FileUtils;
 import com.visitor.tengli.face.util.LightColor;
 import com.visitor.tengli.face.util.SensorTypeName;
 import com.visitor.tengli.face.util.ToastUtil;
 import com.visitor.tengli.face.view.DiffuseView;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.visitor.tengli.face.helpers.SharedPreferencesHelper.CAMERA_IP;
+import static com.visitor.tengli.face.helpers.SharedPreferencesHelper.KOALA_IP;
+import static com.visitor.tengli.face.helpers.SharedPreferencesHelper.STRANGER;
 
 public class RtspActivity extends BaseActivity implements IFaceListener {
 
@@ -69,6 +69,7 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
 
     String koala;
     String camera;
+    boolean bStranger;
     @Inject
     SharedPreferencesHelper sp;
     @Inject
@@ -82,6 +83,8 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
 
     final int cpu_max_temperature = 50;
     final int cpu_min_temperature = 30;
+    @BindView(R.id.imageview_openstate)
+    ImageView imageviewOpenstate;
 
     @Override
     int getLayout() {
@@ -93,8 +96,9 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
 
     @Override
     void create() {
-        koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
-        camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
+        koala = sp.getStringValue(KOALA_IP, "");
+        camera = sp.getStringValue(CAMERA_IP, "");
+        bStranger = sp.getBooleanValue(STRANGER, false);
         initView();
 
         lightHelper.setFaceListerner(this);
@@ -165,7 +169,6 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
         });
 
         webview.loadUrl("http://127.0.0.1:8080/browserfs.html");
-//        webview.loadUrl("http://www.baidu.com");
         webSocketHelper = new WebSocketHelper(this, koala, camera, handler);
         webSocketHelper.open();
 
@@ -176,6 +179,7 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
 //        ToastUtil.Show(this, "" + width + " " + height + " " + scale + " " + qq);
     }
 
+    Bitmap strangerBitmap = null;
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
@@ -187,13 +191,27 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
                 if (type == "0") {
                     String personname = bundle.getString("name");
                     String avatar = bundle.getString("avatar");
+                    imageviewOpenstate.setImageResource(R.mipmap.yz);
                     tvVipName.setText("欢迎光临 " + personname);
-                    handler.sendEmptyMessageDelayed(101, 5000);
+                    tvopen.setText("请通行");
                     showface(avatar);
                     lightHelper.SwitchLigth(LightColor.Green);
+                    handler.sendEmptyMessageDelayed(101, 5000);
                 }
 
                 if (type == "1") { //陌生人
+                    if (strangerBitmap != null) {
+                        strangerBitmap.recycle();
+                        strangerBitmap = null;
+                        System.gc();
+                    }
+
+                    imageviewOpenstate.setImageResource(R.mipmap.msr);
+                    tvVipName.setText("未登记信息");
+                    tvopen.setText("禁止通行");
+                    String avatar = bundle.getString("avatar");
+                    strangerBitmap = FileUtils.stringToBitmap(avatar);
+                    imageFace.setImageBitmap(strangerBitmap);
                     lightHelper.SwitchLigth(LightColor.Red);
                 }
             }
@@ -336,5 +354,12 @@ public class RtspActivity extends BaseActivity implements IFaceListener {
                 diffuseView.start();
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
