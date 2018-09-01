@@ -11,9 +11,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.visitor.tengli.face.fs.WSHelper;
 import com.visitor.tengli.face.helpers.SharedPreferencesHelper;
 import com.visitor.tengli.face.util.Config;
+import com.visitor.tengli.face.util.IPHelper;
 import com.visitor.tengli.face.util.ToastUtil;
 
 import javax.inject.Inject;
@@ -91,10 +91,10 @@ public class SettingActivity extends BaseActivity {
                 sp.setStringValue(KOALA_IP, koala);
                 sp.setStringValue(CAMERA_IP, camera);
                 sp.setBooleanValue(STRANGER, stranger);
-                WSHelper ws = new WSHelper(koala, camera);
-                boolean open = ws.Open();
-                ws.Close();
-                if (open) {
+
+                boolean bkoalaping = IPHelper.startPing(koala);
+                boolean bcameraping = IPHelper.startPing(camera);
+                if (bkoalaping && bcameraping) {
                     Intent intent = new Intent(this, RtspActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);

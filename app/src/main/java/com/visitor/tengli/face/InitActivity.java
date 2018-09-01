@@ -1,11 +1,11 @@
 package com.visitor.tengli.face;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.visitor.tengli.face.core.LightHelper;
-import com.visitor.tengli.face.fs.WSHelper;
 import com.visitor.tengli.face.helpers.SharedPreferencesHelper;
 import com.visitor.tengli.face.model.Student;
 import com.visitor.tengli.face.util.Config;
@@ -14,6 +14,9 @@ import com.visitor.tengli.face.util.IPHelper;
 import java.util.logging.Handler;
 
 import javax.inject.Inject;
+
+import static com.visitor.tengli.face.helpers.SharedPreferencesHelper.CAMERA_IP;
+import static com.visitor.tengli.face.helpers.SharedPreferencesHelper.KOALA_IP;
 
 public class InitActivity extends BaseActivity {
 
@@ -27,14 +30,15 @@ public class InitActivity extends BaseActivity {
 
     @Override
     void create() {
+
         Log.d(Config.tag, "Init->" + sp.toString());
 
         android.os.Handler handler = new android.os.Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                final String koala = sp.getStringValue(SharedPreferencesHelper.KOALA_IP, "");
-                final String camera = sp.getStringValue(SharedPreferencesHelper.CAMERA_IP, "");
+                final String koala = sp.getStringValue(KOALA_IP, "");
+                final String camera = sp.getStringValue(CAMERA_IP, "");
 
 //                if (TextUtils.isEmpty(koala) || TextUtils.isEmpty(camera)) {
 //                    goToSettingActivity();
