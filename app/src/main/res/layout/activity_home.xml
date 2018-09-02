@@ -16,32 +16,32 @@
     <Button
         android:id="@+id/btn_setting"
         android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:layout_height="46dp"
         android:text="设置" />
 
     <Button
         android:id="@+id/btn_main"
-        android:layout_width="800dp"
-        android:layout_height="40dp"
+        android:layout_width="200dp"
+        android:layout_height="46dp"
         android:text="工具" />
 
     <Button
         android:id="@+id/btn_cpu"
         android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:layout_height="46dp"
         android:text="温度" />
 
     <Button
         android:id="@+id/btn_face"
         android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:layout_height="46dp"
         android:text="识别" />
 
     <Button
         android:id="@+id/btn_study"
         android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:text="学习" />
+        android:layout_height="46dp"
+        android:text="屏幕" />
 
     <View
         android:layout_width="match_parent"

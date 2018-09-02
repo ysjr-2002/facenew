@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,9 +8,206 @@
     android:gravity="center"
     tools:context=".StudyActivity">
 
-    <Button
-        android:text="屏幕测试"
-        android:id="@+id/button"
-        android:layout_width="350dp"
-        android:layout_height="46dp" />
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/layout_password_container"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:layout_gravity="center"
+        android:background="@color/color_translucent_70"
+        android:paddingEnd="34dp"
+        android:paddingStart="34dp"
+        android:paddingTop="27dp"
+        android:paddingBottom="34dp"
+        >
+
+        <TextView
+            android:id="@+id/et_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:padding="10dp"
+            android:textSize="36sp"
+            android:gravity="center"
+            android:background="@color/white"/>
+
+        <LinearLayout
+            android:id="@+id/layout_key_i"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="34dp"
+            android:layout_below="@+id/et_pwd"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_i"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_ii"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/et_pwd"
+            android:layout_toEndOf="@+id/layout_key_i"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_ii"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_iii"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/et_pwd"
+            android:layout_toEndOf="@+id/layout_key_ii"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_iii"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_delete"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/et_pwd"
+            android:gravity="center"
+            android:layout_toEndOf="@+id/layout_key_iii"
+            >
+            <!--<TextView-->
+            <!--style="@style/PasswordKeyboardStySmall"-->
+            <!--android:textSize="20sp"-->
+            <!--android:text="@string/key_delete"-->
+            <!--/>-->
+            <!---->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_delete"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_iv"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="34dp"
+            android:layout_below="@+id/layout_key_i"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_iv"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_v"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/layout_key_ii"
+            android:layout_toEndOf="@+id/layout_key_iv"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_v"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_vi"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/layout_key_iii"
+            android:layout_toEndOf="@+id/layout_key_v"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_vi"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_vii"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="34dp"
+            android:layout_below="@+id/layout_key_iv"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_vii"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_viii"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/layout_key_v"
+            android:layout_toEndOf="@+id/layout_key_vii"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_viii"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_ix"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/layout_key_vi"
+            android:layout_toEndOf="@+id/layout_key_viii"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_ix"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_x"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_height="219dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="11dp"
+            android:paddingBottom="36dp"
+            android:layout_below="@+id/layout_key_delete"
+            android:layout_toEndOf="@+id/layout_key_vi"
+            android:gravity="bottom|center_horizontal"
+            >
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:text="@string/key_x"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_key_confirm"
+            style="@style/PasswordKeyboardLayoutStySmall"
+            android:layout_width="450dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="34dp"
+            android:background="#005585"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/layout_key_delete">
+            <TextView
+                style="@style/PasswordKeyboardStySmall"
+                android:textSize="36sp"
+                android:text="@string/key_confirm"
+                />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -2,82 +2,122 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/root"
-    android:background="@color/colorPrimaryDark"
     tools:context="com.visitor.obria.facepad.SettingActivity">
 
     <View
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"></View>
+        android:layout_height="0dp"
+        android:layout_weight="1"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <View
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"></View>
+            android:layout_height="match_parent"
+            android:layout_weight="1"></View>
 
         <LinearLayout
-            android:layout_width="360dp"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
-                android:text="请设置人脸识别服务"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="36sp"
-                android:textColor="@color/white"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="64dp"
-                android:layout_height="wrap_content" />
+                android:gravity="center"
+                android:text="请设置人脸识别服务"
+                android:textColor="@color/black"
+                android:textSize="36sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="80dp">
+                android:layout_height="80dp"
+                android:orientation="horizontal">
+
                 <TextView
                     style="@style/tvLogin"
-                    android:text="服务:" />
+                    android:text="人脸:" />
 
                 <EditText
                     android:id="@+id/et_koala"
-                    android:layout_width="200dp"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/settingtextsize"
-                    android:layout_height="wrap_content" />
+                    style="@style/etsetting" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="80dp">
+                android:layout_height="wrap_content"
+                android:minHeight="80dp"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:text="摄像机:"
-                    style="@style/tvLogin" />
+                    style="@style/tvLogin"
+                    android:text="摄像机:" />
 
                 <EditText
+                    android:inputType="textMultiLine"
                     android:id="@+id/et_camera"
-                    android:layout_width="200dp"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/settingtextsize"
-                    android:layout_height="wrap_content" />
+                    style="@style/etsetting" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="80dp">
+                android:layout_height="80dp"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:text="陌生人:"
-                    style="@style/tvLogin" />
+                    style="@style/tvLogin"
+                    android:text="绿灯:" />
+
+                <EditText
+                    android:id="@+id/et_green"
+                    style="@style/etsetting" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/tvLogin"
+                    android:text="红灯:" />
+
+                <EditText
+                    android:id="@+id/et_red"
+                    style="@style/etsetting" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/tvLogin"
+                    android:text="关闸延时:" />
+
+                <EditText
+                    android:id="@+id/et_close"
+                    style="@style/etsetting" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/tvLogin"
+                    android:text="陌生人:" />
 
                 <CheckBox
                     android:id="@+id/cb_stranger"
@@ -86,38 +126,36 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_height="80dp"
                 android:gravity="center"
-                android:layout_height="80dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnExit"
+                    style="@style/btnSave"
                     android:layout_marginLeft="6dp"
-                    style="@style/btnExit"
-                    android:text="退出" />
+                    android:text="返回" />
 
                 <Button
-                    android:layout_marginLeft="12dp"
                     android:id="@+id/btnSave"
-                    android:text="保存"
-                    style="@style/btnSave"/>
+                    style="@style/btnSave"
+                    android:layout_marginLeft="12dp"
+                    android:text="保存" />
 
             </LinearLayout>
-
-
         </LinearLayout>
 
 
         <View
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"></View>
+            android:layout_height="match_parent"
+            android:layout_weight="1"></View>
     </LinearLayout>
 
     <View
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"></View>
+        android:layout_height="0dp"
+        android:layout_weight="1"></View>
 
 </LinearLayout>

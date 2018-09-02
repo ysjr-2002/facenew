@@ -6,4 +6,7 @@ package com.visitor.tengli.face.util;
  */
 public class Config {
     public static final String tag = "ysj";
+
+    public static final String SETTING_PASSWORD = "07551234";
+    public static final int PASSWORD_MAX_LENGTH = 8;
 }

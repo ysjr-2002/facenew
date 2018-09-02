@@ -1,11 +1,14 @@
 package com.visitor.tengli.face;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.visitor.tengli.face.util.Config;
@@ -20,11 +23,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.visitor.tengli.face.util.Config.PASSWORD_MAX_LENGTH;
+import static com.visitor.tengli.face.util.Config.SETTING_PASSWORD;
+
 public class StudyActivity extends BaseActivity {
 
-
-    @BindView(R.id.button)
-    Button button;
+    @BindView(R.id.et_pwd)
+    TextView mEtPwd;
 
     @Override
     int getLayout() {
@@ -33,128 +38,7 @@ public class StudyActivity extends BaseActivity {
 
     @Override
     void create() {
-
-//        int[] int_arrays = {1, 2, 3, 4, 5};
-//        String[] str_array = new String[]{"1", "2", "3", "4", "5"};
-//        String[] str_array_temp = {"7", "8", "9", "10"};
-//
-//        for (int i : int_arrays
-//                ) {
-//
-//            Log.d(Config.tag, "int->" + i);
-//        }
-//
-//        for (String s :
-//                str_array) {
-//
-//            Log.d(Config.tag, "str->" + s);
-//        }
-//
-//        for (String s :
-//                str_array_temp) {
-//
-//            Log.d(Config.tag, "str->" + s);
-//        }
-//
-//        fun(11, 22, 33, 44);
-//        hash();
-        //list_int();
-        list_str();
-        getdisplay();
-
-
-        String a = "12";
-        String b = a.concat("23");
-    }
-
-    private void getdisplay() {
-
-        DisplayMetrics dm = this.getResources().getDisplayMetrics();
-
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-        int di = dm.densityDpi;
-
-        Toast.makeText(this, String.format("width %s height %s dpi %s", width, height, di), Toast.LENGTH_SHORT).show();
-    }
-
-    private void list_str() {
-
-        List<String> list = new ArrayList<String>();
-        list.add("aaa");
-        list.add("bbb");
-        list.add("ccc");
-
-        String x = list.get(1);
-        if (TextUtils.equals(list.get(1), "bbb")) {
-
-            String temp = "";
-        }
-    }
-
-    private void list_int() {
-
-        List<Integer> list = new ArrayList<>();
-        for (int i = 100; i < 111; i++) {
-            list.add(i);
-        }
-
-        int len = list.size();
-        for (Integer i :
-                list) {
-
-            int kk = i.intValue();
-            Log.d(Config.tag, i.toString());
-
-            if (i == 101) {
-                String ok = "";
-            }
-        }
-    }
-
-    private void hash() {
-
-        Map<String, String> maps = new HashMap<>();
-        maps.put("1", "父亲");
-        maps.put("2", "母亲");
-
-        if (maps.containsKey("1")) {
-            Log.d(Config.tag, "父亲");
-        }
-
-        if (maps.containsKey("2")) {
-            Log.d(Config.tag, "母亲");
-        }
-
-        if (maps.containsKey("3") == false) {
-            Log.d(Config.tag, "不包含");
-        }
-
-        for (Map.Entry<String, String> entry :
-                maps.entrySet()) {
-
-            Log.d(Config.tag, String.format("key %s  value %s", entry.getKey(), entry.getValue()));
-        }
-
-        for (String key :
-                maps.keySet()) {
-            Log.d(Config.tag, String.format("key %s", key));
-        }
-
-        for (String val :
-                maps.values()) {
-            Log.d(Config.tag, String.format("value %s", val));
-        }
-    }
-
-    private void fun(int... array) {
-
-        int len = array.length;
-        for (int i :
-                array) {
-
-            Log.d(Config.tag, "fun->" + i);
-        }
+        error_count = 0;
     }
 
     @Override
@@ -169,14 +53,53 @@ public class StudyActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.button)
-    public void onViewClicked() {
+    String mPassword = "";
+    @OnClick({R.id.layout_key_i, R.id.layout_key_ii, R.id.layout_key_iii, R.id.layout_key_iv, R.id.layout_key_v, R.id.layout_key_vi, R.id.layout_key_vii, R.id.layout_key_viii, R.id.layout_key_ix, R.id.layout_key_x})
+    public void onNumberClicked(View view) {
 
-        int width = button.getWidth();
-        int height = button.getHeight();
-        ToastUtil.Show(this, "width=" + width + " height=" + height);
-        LinearLayout.LayoutParams test = new LinearLayout.LayoutParams(300, 92);
-        button.setLayoutParams(test);
+
+        mPassword += ((TextView) ((LinearLayout) view).getChildAt(0)).getText();
+        mEtPwd.setText(String.format(getString(R.string.key_password_format), mEtPwd.getText()));
     }
 
+    int error_count = 0;
+
+    @OnClick({R.id.layout_key_confirm, R.id.layout_key_delete})
+    public void onActionClicked(View view) {
+
+        switch (view.getId()) {
+            case R.id.layout_key_delete:
+                if (TextUtils.isEmpty(mPassword)) {
+                    return;
+                }
+
+                mPassword = mPassword.substring(0, mPassword.length() - 1);
+                mEtPwd.setText(mEtPwd.getText().toString().substring(0, mPassword.length()));
+                break;
+            case R.id.layout_key_confirm:
+
+                if (mPassword.length() != PASSWORD_MAX_LENGTH) {
+                    ToastUtil.show(String.format(getString(R.string.key_password_length_too_short), PASSWORD_MAX_LENGTH));
+                    return;
+                }
+
+                if (mPassword.equals(SETTING_PASSWORD)) {
+                    mPassword = null;
+                    mEtPwd.setText("");
+                    Intent intent = new Intent(this, SettingActivity.class);
+                    startActivity(intent);
+                    this.finish();
+                } else {
+                    ToastUtil.show("密码错误！");
+                    error_count++;
+
+                    if (error_count == 4) { //错误次数超过三次
+                        Intent intent = new Intent(this, RtspActivity.class);
+                        startActivity(intent);
+                        this.finish();
+                    }
+                }
+        }
+    }
 }
+

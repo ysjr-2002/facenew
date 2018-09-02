@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Face Recognize</string>
+    <string name="app_name">人脸识别</string>
 
     <string-array name="ligth">
         <item>白</item>
@@ -9,4 +9,20 @@
         <item>黄</item>
         <item>关</item>
     </string-array>
+    <string name="key_i">1</string>
+    <string name="key_ii">2</string>
+    <string name="key_iii">3</string>
+    <string name="key_iv">4</string>
+    <string name="key_v">5</string>
+    <string name="key_vi">6</string>
+    <string name="key_vii">7</string>
+    <string name="key_viii">8</string>
+    <string name="key_ix">9</string>
+    <string name="key_x">0</string>
+
+    <string name="key_confirm">确认</string>
+    <string name="key_cancel">取消</string>
+
+    <string name="key_password_format">%1$s*</string>
+    <string name="key_password_length_too_short">您输入的密码长度不正确(%1$d位),请重新输入</string>
 </resources>

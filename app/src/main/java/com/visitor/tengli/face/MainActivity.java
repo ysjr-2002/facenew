@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         closeLigthHandler.sendEmptyMessageDelayed(101, 3000);
 
         init();
-        initTimerTask();
 
         float a = 23.4f;
         int b = (int) a;

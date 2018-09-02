@@ -40,23 +40,24 @@ public class InitActivity extends BaseActivity {
                 final String koala = sp.getStringValue(KOALA_IP, "");
                 final String camera = sp.getStringValue(CAMERA_IP, "");
 
-//                if (TextUtils.isEmpty(koala) || TextUtils.isEmpty(camera)) {
-//                    goToSettingActivity();
-//                } else {
-//                    boolean a = IPHelper.startPing(koala);
+                if (TextUtils.isEmpty(koala) || TextUtils.isEmpty(camera)) {
+                    goToSettingActivity();
+                } else {
+                    boolean a = IPHelper.startPing(koala);
 //                    boolean b = IPHelper.startPing(camera);
-//                    boolean open = (a && b);
-//                    if (open) {
-//                        goToMainActivity();
-//
-//                    } else {
-//                        goToSettingActivity();
-//                    }
-//                }
+                    boolean b = true;
+                    boolean open = (a && b);
+                    open = true;
+                    if (open) {
+                        goToMainActivity();
 
-                Intent intent = new Intent(InitActivity.this, HomeActivity.class);
-                startActivity(intent);
-                InitActivity.this.finish();
+                    } else {
+                        goToSettingActivity();
+                    }
+                }
+//                Intent intent = new Intent(InitActivity.this, StudyActivity.class);
+//                startActivity(intent);
+//                InitActivity.this.finish();
             }
         }, 1 * 1000);
     }

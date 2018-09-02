@@ -33,8 +33,8 @@ public class LightHelper {
     LightColor lightColor;
     IFaceListener faceNear;
 
-    final int ligth_green_to_white = 3000;
-    final int ligth_red_to_white = 5000;
+    int ligth_green_to_white = 2000;
+    int ligth_red_to_white = 2000;
 
     @Inject
     public LightHelper() {
@@ -50,6 +50,14 @@ public class LightHelper {
         this.context = context;
     }
 
+    public void setLigth_green_to_white(int val) {
+        ligth_green_to_white = val;
+    }
+
+    public void setLigth_red_to_white(int val) {
+        this.ligth_red_to_white = val;
+    }
+
     public void run() {
         initTimerTask();
     }
@@ -61,15 +69,14 @@ public class LightHelper {
             public void run() {
 
                 int temperature = 0;
-                try {
-                    temperature = HwitManager.HwitGetCpuTemp();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
+//                try {
+//                    temperature = HwitManager.HwitGetCpuTemp();
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
                 if (temperature >= 50) {
                     HwitManager.HwitSetIOValue(4, 1);
-                } else {
+                } else if (temperature > 0) {
                     HwitManager.HwitSetIOValue(4, 0);
                 }
 
@@ -137,6 +144,14 @@ public class LightHelper {
         this.lightColor = color;
         Light.openlight(color);
         currenttime = System.currentTimeMillis();
+    }
+
+    public void open() {
+        HwitManager.HwitSetIOValue(5, 1);
+    }
+
+    public void close() {
+        HwitManager.HwitSetIOValue(5, 0);
     }
 
     public void stop() {

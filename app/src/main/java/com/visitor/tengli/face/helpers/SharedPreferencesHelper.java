@@ -22,6 +22,9 @@ public class SharedPreferencesHelper {
 
     public static final String KOALA_IP = "koala";
     public static final String CAMERA_IP = "camera";
+    public static final String GREEN_DELAY = "green";
+    public static final String RED_DELAY = "red";
+    public static final String CLOSEGATE_DELAY = "close";
     public static final String STRANGER = "stranger";
 
     @Inject

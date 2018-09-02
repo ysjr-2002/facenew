@@ -135,6 +135,6 @@ public class CenterActivity extends BaseActivity {
         if (context1.equals(context2)) {
             String x = "";
         }
-        ToastUtil.Show(context1, "are you ok???");
+        ToastUtil.show("are you ok???");
     }
 }
