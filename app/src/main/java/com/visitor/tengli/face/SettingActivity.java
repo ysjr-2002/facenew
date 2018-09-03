@@ -91,8 +91,12 @@ public class SettingActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnExit:
-                Process.killProcess(Process.myPid());
-                System.exit(0);
+//                Process.killProcess(Process.myPid());
+//                System.exit(0);
+                Intent a = new Intent(this, RtspActivity.class);
+                startActivity(a);
+                overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
+                this.finish();
                 break;
             case R.id.btnSave:
                 String koala = etKoala.getText().toString();
